@@ -7,6 +7,11 @@ services:
       - "3000:3000"
     volumes:
       - ./oamaestro_data:/home/mcpuser/.oamaestro
+    environment:
+      # Remote faster-whisper endpoint (OpenAI-compatible). Set via .env:
+      #   WHISPER_URL=http://<host>:<port>/v1/audio/transcriptions
+      # Unset/empty -> local std ONNX whisper.
+      - WHISPER_URL=${WHISPER_URL:-}
     entrypoint: ["node", "dist/server.js", "--server", "--port", "3000"]
     security_opt:
       - no-new-privileges:true
