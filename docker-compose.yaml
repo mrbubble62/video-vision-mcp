@@ -1,0 +1,17 @@
+services:
+  video-vision-mcp-server:
+    build: .
+    container_name: video-vision-mcp-http
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./oamaestro_data:/home/mcpuser/.oamaestro
+    entrypoint: ["node", "dist/server.js", "--server", "--port", "3000"]
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    read_only: true
+    tmpfs:
+      - /tmp:size=2G,noexec,nosuid,nodev
